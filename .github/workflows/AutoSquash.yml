@@ -17,8 +17,18 @@ jobs:
     name: Squash Crowdin
     runs-on: ubuntu-latest
     steps:
+      - name: Check Label
+        uses: mheap/github-action-required-labels@v2
+        id: check-label
+        with:
+          mode: exactly
+          count: 1
+          labels: "合併翻譯"
+          exit_type: success
+
       - name: AutoSquash & Merge
-        uses: "pascalgn/automerge-action@v0.14.3"
+        uses: pascalgn/automerge-action@v0.14.3
+        if: needs.label.outputs.status == 'success'
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           MERGE_LABELS: "合併翻譯"
@@ -35,8 +45,18 @@ jobs:
     name: Squash Crowdin
     runs-on: ubuntu-latest
     steps:
+      - name: Check Label
+        uses: mheap/github-action-required-labels@v2
+        id: check-label
+        with:
+          mode: exactly
+          count: 1
+          labels: "合併路線圖"
+          exit_type: success
+
       - name: AutoSquash & Merge
         uses: "pascalgn/automerge-action@v0.14.3"
+        if: needs.label.outputs.status == 'success'
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           MERGE_LABELS: "合併路線圖"
