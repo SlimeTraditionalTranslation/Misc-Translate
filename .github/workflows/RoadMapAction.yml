@@ -1,16 +1,30 @@
 name: RoadMapAction
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      chooser:
+        description: "Choose Manual Run Job"     
+        required: true
+        default: "Updater"
+        type: choice
+        options:
+        - Updater
+        - Sync
   push:
     branches:
       - main
+    paths:
+      - RoadMap/**
+  schedule:
+    - cron: "0 16 * * 1"
 
 jobs:
 
   RoadMapUpdater:
     name: AutoUpdate Roadmap
     runs-on: ubuntu-latest
+    if: ${{ inputs.chooser == Updater || github.event_name == 'schedule' }}
     env:
       working-directory: ./RoadMap/
     steps:
@@ -45,3 +59,25 @@ jobs:
           branch: update/roadmap
           delete-branch: true
           assignees: xMikux
+
+  RoadMapSync:
+    name: RoadMap Sync
+    runs-on: ubuntu-latest
+    if: ${{ inputs.chooser == 'Sync' }}
+    steps:
+      - name: Checking Repostiory
+        uses: actions/checkout@v3
+
+      - name: Checking Change
+        id: changed-files
+        uses: tj-actions/changed-files@v23.1
+        with:
+          other_modified_files: |
+            RoadMap/RoadMap-zh_TW.md
+
+      - name: Hello World
+        if: steps.changed-files-specific.outputs.any_changed == 'true'
+        run: echo "hEllo Wo"
+
+      - name: World Hello
+        run: echo "Wo Hello"
