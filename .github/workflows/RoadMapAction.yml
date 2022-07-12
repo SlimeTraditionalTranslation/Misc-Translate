@@ -20,7 +20,7 @@ jobs:
       - name: Get Slimefun Issus RoadMap
         working-directory: ${{ env.working-directory }}
         run: |
-          printf "---\ntitle: "🚀 黏液科技官方路線圖"\nsidebar_position: 1\n---\n" > RoadMap-en.md
+          echo -e "---\ntitle: \"🚀 黏液科技官方路線圖\"\nsidebar_position: 1\n---\n" > RoadMap-en.md
           echo "Get Issus"
           curl \
           -H "Accept: application/vnd.github+json" \
