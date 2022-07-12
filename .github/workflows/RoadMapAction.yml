@@ -9,7 +9,7 @@ on:
 jobs:
 
   RoadMapUpdater:
-    name: AutoUpdat Roadmap
+    name: AutoUpdate Roadmap
     runs-on: ubuntu-latest
     env:
       working-directory: ./RoadMap/
@@ -18,12 +18,19 @@ jobs:
         uses: actions/checkout@v3
       
       - name: Get Slimefun Issus RoadMap
+        working-directory: ${{ env.working-directory }}
         run: |
           echo "Get Issus"
           curl \
           -H "Accept: application/vnd.github+json" \
           https://api.github.com/repos/Slimefun/Slimefun4/issues/3170 | \
-          jq -r .body > RoadMap.md
+          jq -r .body > RoadMap-en.md
+
+      - name: Lint RoadMap
+        uses: avto-dev/markdown-lint@v1.5.0
+        with:
+          args: ./RoadMap/RoadMap-en.md
+          fix: true
 
       - name: Create Update Pull Request
         uses: peter-evans/create-pull-request@v4
