@@ -46,34 +46,34 @@ sidebar_position: 1
 
 感謝 @Semisol，你將很快會享受到一個新的輻射系統，它將通過計算放射性物質的“暴露水平”來運作。 在達到一定的暴露水平之前，你不會出現輻射症狀。 這也將使不同輻射水平的分界線更加明確，並且這些功能還帶有一些漂亮的介面更改！ 你可以在這裡追蹤進度：<https://github.com/Slimefun/Slimefun4/pull/3189>
 
-### 🎈 (Q4 2022) SQL database support and Research system rewrite
+### 🎈 (2022 年 第 4 季度) SQL 資料庫支持與研究系統重寫
 
-The Research system will be rewritten api-wise. We will also drop numeric ids for researches and solely rely on namespaced keys. In addition to this, we will add support for SQL databases to sync researches across multiple servers. Alternatively, a local file-based database can be used.
+研究系統將重寫成 API。 我們也將會刪除研究的數字 ID，並僅依賴於命名空間鍵。 除此之外，我們也將會添加對 SQL 資料庫的支持，以便跨伺服器同步研究進度。 或者，也可以使用本地文件的資料庫。
 
-### 🔧 (2022/23) Recipe system rewrite
+### 🔧 (2022/23 年) 配方系統重寫
 
-Our recipe system is in deep need of a rewrite, it needs to be much less item-comparison based and we should allow alternate ingredients through the use of material tags or slimefun item classes and such. I will be doing this rewrite myself and some infrastructure has been set up already but nothing to show you yet, it is still a while until we get there.
+我們的配方系統非常需要進行重寫，它需要更少的基於物品比較，我們也應該通過材料標籤或黏液科技的物品 class 來代替組成。 我將會親自重寫（這裡的我是指黏液科技作者），目前已建立一些基礎架構，但還沒有甚麼可展示，距離我們達到目標仍然還有很長一段時間。
 
-### 🎈 (2023) Programmable androids rewrite
+### 🎈 (2023 年) 可編輯機器人重寫
 
-Programmable androids are great. But they can be better! We will be stripping the data of an android from its block and give it a unique identity instead. The UI will be completely redone and it will have much better performance. Oh, and you will be able to give other players access to your android and configure their permissions.
+可編輯機器人很棒。 但它們可以更棒！ 我們將把機器人的資料儲存從方塊區中分離出來，並給它一個獨特的身分。 介面也將會完全重做，且效能也將會更好。 哦，你也將能夠讓其他玩家可以訪問你的機器人，並配置他們的權限。
 
-### 🔧 (TBD) Ticker rewrite
+### 🔧 (TBD) Ticker 重寫
 
-Thanks to @LinoxGH and @md5sha256 our ticker system will be rewritten to be much more reliable. This will also include some API changes that are yet to be added, you can track the progress here: <https://github.com/Slimefun/Slimefun4/pull/2996>
+感謝 @LinoxGH 和 @md5sha256，我們的 Ticker 系統將被完全重寫成更加可靠的。 這也將包括一些未添加的 API 變化，你可以在此處追蹤進度：<https://github.com/Slimefun/Slimefun4/pull/2996>
 
-### 🔧 (TBD) BlockStorage system rewrite
+### 🔧 (TBD) BlockStorage 系統重寫
 
-The "block-storage" system will be rewritten, the API will change drastically and we will open it up for much more efficient storage methods, this will do a lot in regards to stability and performance in the long-run. You can track the progress here: <https://github.com/Slimefun/Slimefun4/pull/2792>
+“方塊儲存” 系統將會被重寫，API 也將會發生巨大變化，我們將開放它以更高效的儲存方法，這也對長期的穩定性有巨大的幫助。 你可以在這裡追蹤進度：<https://github.com/Slimefun/Slimefun4/pull/2792>
 
-### 🔧 (TBD) Changes to the config system and perhaps a reload command
+### 🔧 (TBD) 對配置系統的變化及可能會添加的重新加載指令
 
-We haven't fully decided on this one yet but you can follow the progress here: <https://github.com/Slimefun/Slimefun4/pull/2822>
+我們還沒完全決定這個，但你可以在這裡關注進度：<https://github.com/Slimefun/Slimefun4/pull/2822>
 
-### 💡 (TBD) Cargo networks rewrite
+### 💡 (TBD) 物流網路重寫
 
-Where do we even start here... It needs a rewrite, nuff said.
+我們甚至將從哪裡開始... 它需要重寫，不多說了（nuff said）。
 
-## 🎉 Feedback
+## 🎉 回饋
 
-We are always looking for feedback! If you have something to suggest, check out our discord server @ <https://discord.gg/slimefun> and visit `#suggestions`. We are always eager to see what the community wants or doesn't want. If you are a developer and have questions or concerns regarding some of the more technical changes, simply post your question in `#programming-help` and we will get back to you!
+我們一直在聆聽回饋意見！ 如果你有任何建議，請查看我們的 Discord 伺服器 @ <https://discord.gg/slimefun> 並查看 `#suggestions` 頻道（請使用英文進行回饋）。 我們總是希望看到社群想要或不想要甚麼。 如果你是開發者並且對某些技術性變更有疑問，只需要把你的問題輸入在 `#programming-help`，我們將會與你一起討論你所提出的問題！
