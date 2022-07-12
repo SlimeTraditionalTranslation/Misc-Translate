@@ -64,8 +64,7 @@ jobs:
     name: RoadMap Sync
     runs-on: ubuntu-latest
     if: | 
-      ${{ inputs.chooser == 'Sync' }} ||
-      contains(github.event.head_commit.message, 'ci: Crowdin Update')
+      ${{ inputs.chooser == 'Sync' || contains(github.event.head_commit.message, 'ci: Crowdin Update') }}
 
     steps:
       - name: Checking Repostiory
