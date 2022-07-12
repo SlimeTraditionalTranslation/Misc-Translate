@@ -1,0 +1,38 @@
+name: RoadMapAction
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - main
+
+jobs:
+
+  RoadMapUpdater:
+    name: AutoUpdat Roadmap
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./RoadMap/
+    steps:
+      - name: Checking Repostiory
+        uses: actions/checkout@v3
+      
+      - name: Get Slimefun Issus RoadMap
+        run: |
+          echo "Get Issus"
+          curl \
+          -H "Accept: application/vnd.github+json" \
+          https://api.github.com/repos/Slimefun/Slimefun4/issues/3170 | \
+          jq -r .body > RoadMap.md
+
+      - name: Create Update Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          title: "[Auto] RoadMap Update"
+          body: |
+            Automated changes by [create-pull-request](https://github.com/peter-evans/create-pull-request) GitHub action
+          commit-message: "ci: [Auto] RoadMap Update"
+          branch: update/roadmap
+          delete-branch: true
+          assignees: xMikux
+
