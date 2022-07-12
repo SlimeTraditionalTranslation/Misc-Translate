@@ -20,15 +20,17 @@ jobs:
       - name: Get Slimefun Issus RoadMap
         working-directory: ${{ env.working-directory }}
         run: |
+          printf "---\ntitle: "🚀 黏液科技官方路線圖"\nsidebar_position: 1\n---\n" > RoadMap-en.md
           echo "Get Issus"
           curl \
           -H "Accept: application/vnd.github+json" \
           https://api.github.com/repos/Slimefun/Slimefun4/issues/3170 | \
-          jq -r .body > RoadMap-en.md
+          jq -r .body >> RoadMap-en.md
 
       - name: Lint RoadMap
         uses: avto-dev/markdown-lint@v1.5.0
         with:
+          config: ".github/configs/markdown-lint.yaml"
           args: ./RoadMap/RoadMap-en.md
           fix: true
 
