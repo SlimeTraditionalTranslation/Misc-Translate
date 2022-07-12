@@ -24,7 +24,7 @@ jobs:
   RoadMapUpdater:
     name: AutoUpdate Roadmap
     runs-on: ubuntu-latest
-    if: ${{ inputs.chooser == Updater || github.event_name == 'schedule' }}
+    if: ${{ inputs.chooser == 'Updater' || github.event_name == 'schedule' }}
     env:
       working-directory: ./RoadMap/
     steps:
