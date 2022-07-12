@@ -1,0 +1,3 @@
+files:
+  - source: RoadMap/RoadMap-en.md
+    translation: /RoadMap/RoadMap-%locale_with_underscore%.md
