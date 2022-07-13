@@ -56,7 +56,7 @@ jobs:
           MERGE_LABELS: "MergeRoadMap"
           MERGE_REMOVE_LABELS: "MergeRoadMap"
           MERGE_COMMIT_MESSAGE: "ci: RoadMap Update #{pullRequest.number}"
-          MERGE_REQUIRED_APPROVALS: 0
+          MERGE_REQUIRED_APPROVALS: 1
           MERGE_DELETE_BRANCH: true
           MERGE_METHOD: "squash"
           MERGE_FORKS: "false"
