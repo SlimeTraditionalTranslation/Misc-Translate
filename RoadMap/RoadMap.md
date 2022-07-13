@@ -100,4 +100,3 @@ We are always looking for feedback!
 If you have something to suggest, check out our discord server @ <https://discord.gg/slimefun> and visit `#suggestions`.
 We are always eager to see what the community wants or doesn't want.
 If you are a developer and have questions or concerns regarding some of the more technical changes, simply post your question in `#programming-help` and we will get back to you!
-
