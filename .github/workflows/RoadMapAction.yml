@@ -48,34 +48,60 @@ jobs:
           args: ./RoadMap/RoadMap.md
           fix: true
 
+      - name: Setup git config
+        uses: crazy-max/ghaction-import-gpg@v5
+        id: gpg
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+
+      - name: Commit the change
+        working-directory: ${{ env.working-directory }}
+        run: |
+          git add .
+          git commit -S -m "ci: [Auto] RoadMap Update"
+
       - name: Create Update Pull Request
         uses: peter-evans/create-pull-request@v4
+        id: cpr
         with:
-          title: "[Auto] RoadMap Update"
+          title: "[Automated] RoadMap Update"
           body: |
             自動化更新黏液科技路線圖
             由 [create-pull-request](https://github.com/peter-evans/create-pull-request) 製作!
-          commit-message: "ci: [Auto] RoadMap Update"
           branch: update/roadmap
           delete-branch: true
-          assignees: xMikux
+          token: ${{ secrets.EFI_BOT_TOKEN }}
+          author: ${{ steps.gpg.outputs.name }} <${{ steps.gpg.outputs.email }}>
+          # commit-message: "ci: [Auto] RoadMap Update"
+          # committer: ${{ steps.gpg.outputs.name }} <${{ steps.gpg.outputs.email }}>
+
+      - name: Auto PR approve
+        if: steps.cpr.outputs.pull-request-operation == 'created'
+        uses: juliangruber/approve-pull-request-action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          number: ${{ steps.cpr.outputs.pull-request-number }}
 
       - name: Notify with Discord Webhook
         uses: rjstone/discord-webhook-notify@v1
         with:
           severity: info
-          username: RoadMapUpdater
+          username: RoadMap-Updater
           avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
           description: |
-            **路線圖已自動更新並合併，需要檢查最新翻譯！
-          footer: "自動化 Action"
+            **路線圖已自動更新並合併，需要檢查最新翻譯！**
+            **變動合併資訊**：[#${{ steps.cpr.outputs.pull-request-number }}](${{ steps.cpr.outputs.pull-request-url }})
+          footer: "自動化合併通知"
           text: "<@292313547227136001>"
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK_ADMIN }}
 
   RoadMapSync:
     name: RoadMap Sync
     runs-on: ubuntu-latest
-    if: inputs.chooser == 'Sync'
+    if: ${{ inputs.chooser == 'Sync' || github.event_name == 'push' }}
     steps:
       - name: Checking Repostiory
         uses: actions/checkout@v3

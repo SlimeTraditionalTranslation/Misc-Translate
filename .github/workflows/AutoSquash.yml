@@ -5,7 +5,6 @@ on:
       - completed
   pull_request:
     types:
-      - closed
       - labeled
   pull_request_review:
     types:
@@ -16,12 +15,25 @@ jobs:
   SquashCrowdin:
     name: Squash Crowdin
     runs-on: ubuntu-latest
+    if: |
+      github.repository == 'SlimeTraditionalTranslation/Misc-Translate'
     steps:
       - name: Check Label
         id: haslabel
         uses: DanielTamkin/HasLabel@v1.0.4
         with:
           contains: "MergeTranslate"
+
+      - name: Wait 30s Crowdin finish add all translate
+        if: steps.haslabel.outputs.labeled-MergeTranslate
+        run: sleep 30s
+
+      - name: Auto PR approve
+        if: steps.haslabel.outputs.labeled-MergeTranslate
+        uses: juliangruber/approve-pull-request-action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          number: ${{ github.event.number }}
 
       - name: Squash Merge
         uses: pascalgn/automerge-action@v0.14.3
@@ -38,9 +50,25 @@ jobs:
           UPDATE_LABELS: ""
           UPDATE_METHOD: "rebase"
 
+      - name: Notify with Discord Webhook
+        uses: rjstone/discord-webhook-notify@v1
+        if: steps.haslabel.outputs.labeled-MergeTranslate
+        with:
+          severity: info
+          username: RoadMap-Crowdin
+          avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
+          description: |
+            **翻譯已自動進行合併！**
+            **變動合併資訊**：[#${{ github.event.number }}](https://github.com/SlimeTraditionalTranslation/Misc-Translate/pull/${{ github.event.number }})
+          footer: "自動化合併通知"
+          text: "<@292313547227136001>"
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK_ADMIN }}
+
   SquashRoadMap:
     name: Squash RoadMap
     runs-on: ubuntu-latest
+    if: |
+      github.repository == 'SlimeTraditionalTranslation/Misc-Translate'
     steps:
       - name: Check Label
         id: haslabel
@@ -56,7 +84,7 @@ jobs:
           MERGE_LABELS: "MergeRoadMap"
           MERGE_REMOVE_LABELS: "MergeRoadMap"
           MERGE_COMMIT_MESSAGE: "ci: RoadMap Update #{pullRequest.number}"
-          MERGE_REQUIRED_APPROVALS: 0
+          MERGE_REQUIRED_APPROVALS: 1
           MERGE_DELETE_BRANCH: true
           MERGE_METHOD: "squash"
           MERGE_FORKS: "false"
