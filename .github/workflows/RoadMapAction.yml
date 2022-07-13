@@ -55,7 +55,7 @@ jobs:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
           git_user_signingkey: false
-          git_commit_gpgsign: false
+          git_commit_gpgsign: true
 
       # - name: Commit the change
       #   run: |
@@ -101,7 +101,7 @@ jobs:
   RoadMapSync:
     name: RoadMap Sync
     runs-on: ubuntu-latest
-    if: inputs.chooser == 'Sync'
+    if: ${{ inputs.chooser == 'Sync' || github.event_name == 'schedule' }}
     steps:
       - name: Checking Repostiory
         uses: actions/checkout@v3
