@@ -66,10 +66,6 @@ jobs:
       - name: Commit the change
         run: |
           export GPG_TTY=$(tty)
-          echo ">> GPG Info"
-          gpg -K
-          echo ">> Key Info"
-          gpg --status-fd=2 -bsau EB6420275F2E0B1C
           echo ">> Trying Add All Files..."
           git add .
           echo ">> Print Out Status"
