@@ -77,4 +77,3 @@ sidebar_position: 1
 ## 🎉 回饋
 
 我們一直在聆聽回饋意見！ 如果你有任何建議，請查看我們的 Discord 伺服器 @ <https://discord.gg/slimefun> 並查看 `#suggestions` 頻道（請使用英文進行回饋）。 我們總是希望看到社群想要或不想要甚麼。 如果你是開發者並且對某些技術性變更有疑問，只需要把你的問題輸入在 `#programming-help`，我們將會與你一起討論你所提出的問題！
-
