@@ -56,22 +56,12 @@ jobs:
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
           git_user_signingkey: true
           git_commit_gpgsign: true
-          git_config_global: true
-
-      - name: Fix GPG Key TrustLevel
-        run: |
-          echo ">> Fix TrustLevel..."
-          echo "${{ steps.gpg.outputs.fingerprint }}:6:" | gpg --import-ownertrust
 
       - name: Commit the change
+        working-directory: ${{ env.working-directory }}
         run: |
-          export GPG_TTY=$(tty)
-          echo ">> Trying Add All Files..."
           git add .
-          echo ">> Print Out Status"
-          git status
-          echo ">> Commint!"
-          GIT_TRACE=1 git commit -S -m "ci: [Auto] RoadMap Update"
+          git commit -S -m "ci: [Auto] RoadMap Update"
 
       - name: Create Update Pull Request
         uses: peter-evans/create-pull-request@v4
