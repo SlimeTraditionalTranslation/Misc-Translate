@@ -17,8 +17,15 @@ jobs:
     name: Squash Crowdin
     runs-on: ubuntu-latest
     steps:
-      - name: AutoSquash & Merge
+      - name: Check Label
+        id: haslabel
+        uses: DanielTamkin/HasLabel@v1.0.4
+        with:
+          exact: "合併翻譯"
+
+      - name: Squash Merge
         uses: pascalgn/automerge-action@v0.14.3
+        if: steps.haslabel.outputs.labeled-合併翻譯
         continue-on-error: true
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
@@ -33,12 +40,18 @@ jobs:
           UPDATE_METHOD: "rebase"
 
   SquashRoadMap:
-    name: Squash Crowdin
+    name: Squash RoadMap
     runs-on: ubuntu-latest
     steps:
-      - name: AutoSquash & Merge
-        uses: "pascalgn/automerge-action@v0.14.3"
-        continue-on-error: true
+      - name: Check Label
+        id: haslabel
+        uses: DanielTamkin/HasLabel@v1.0.4
+        with:
+          exact: "合併路線圖"
+
+      - name: Squash Merge
+        uses: pascalgn/automerge-action@v0.14.3
+        if: steps.haslabel.outputs.labeled-合併路線圖
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           MERGE_LABELS: "合併路線圖"
