@@ -23,6 +23,10 @@ jobs:
         with:
           contains: "MergeTranslate"
 
+      - name: Wait 30s Crowdin finish add all translate
+        if: steps.haslabel.outputs.labeled-MergeTranslate
+        run: sleep 30s
+
       - name: Squash Merge
         uses: pascalgn/automerge-action@v0.14.3
         if: steps.haslabel.outputs.labeled-MergeTranslate
