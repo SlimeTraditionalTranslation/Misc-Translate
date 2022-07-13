@@ -38,27 +38,27 @@ jobs:
           UPDATE_LABELS: ""
           UPDATE_METHOD: "rebase"
 
-  # SquashRoadMap:
-  #   name: Squash RoadMap
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Check Label
-  #       id: haslabel
-  #       uses: DanielTamkin/HasLabel@v1.0.4
-  #       with:
-  #         contains: "MergeRoadMap"
+  SquashRoadMap:
+    name: Squash RoadMap
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Label
+        id: haslabel
+        uses: DanielTamkin/HasLabel@v1.0.4
+        with:
+          contains: "MergeRoadMap"
 
-  #     - name: Squash Merge
-  #       uses: pascalgn/automerge-action@v0.14.3
-  #       if: steps.haslabel.outputs.labeled-MergeRoadMap
-  #       env:
-  #         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-  #         MERGE_LABELS: "MergeRoadMap"
-  #         MERGE_REMOVE_LABELS: "MergeRoadMap"
-  #         MERGE_COMMIT_MESSAGE: "ci: RoadMap Update #{pullRequest.number}"
-  #         MERGE_REQUIRED_APPROVALS: 0
-  #         MERGE_DELETE_BRANCH: true
-  #         MERGE_METHOD: "squash"
-  #         MERGE_FORKS: "false"
-  #         UPDATE_LABELS: ""
-  #         UPDATE_METHOD: "rebase"
+      - name: Squash Merge
+        uses: pascalgn/automerge-action@v0.14.3
+        if: steps.haslabel.outputs.labeled-MergeRoadMap
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          MERGE_LABELS: "MergeRoadMap"
+          MERGE_REMOVE_LABELS: "MergeRoadMap"
+          MERGE_COMMIT_MESSAGE: "ci: RoadMap Update #{pullRequest.number}"
+          MERGE_REQUIRED_APPROVALS: 0
+          MERGE_DELETE_BRANCH: true
+          MERGE_METHOD: "squash"
+          MERGE_FORKS: "false"
+          UPDATE_LABELS: ""
+          UPDATE_METHOD: "rebase"
