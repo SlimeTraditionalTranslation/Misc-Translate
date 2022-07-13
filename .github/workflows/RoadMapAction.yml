@@ -68,12 +68,11 @@ jobs:
           echo ">> GPG Info"
           gpg -K
           echo ">> Trying Add All Files..."
-          git add -A
+          git add .
           echo ">> Print Out Status"
           git status
           echo ">> Commint!"
           GIT_TRACE=1 git commit -S -m "ci: [Auto] RoadMap Update"
-        working-directory: ${{ env.working-directory }}
 
       - name: Create Update Pull Request
         uses: peter-evans/create-pull-request@v4
