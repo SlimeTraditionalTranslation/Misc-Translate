@@ -25,12 +25,12 @@ jobs:
 
       - name: Squash Merge
         uses: pascalgn/automerge-action@v0.14.3
-        if: steps.haslabel.outputs.labeled-合併翻譯
+        if: steps.haslabel.outputs.labeled-MergeTranslate
         continue-on-error: true
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          MERGE_LABELS: "合併翻譯"
-          MERGE_REMOVE_LABELS: "合併翻譯"
+          MERGE_LABELS: "MergeTranslate"
+          MERGE_REMOVE_LABELS: "MergeTranslate"
           MERGE_COMMIT_MESSAGE: "ci: Crowdin Update #{pullRequest.number}"
           MERGE_REQUIRED_APPROVALS: 0
           MERGE_DELETE_BRANCH: true
@@ -47,15 +47,15 @@ jobs:
         id: haslabel
         uses: DanielTamkin/HasLabel@v1.0.4
         with:
-          exact: "合併路線圖"
+          exact: "MergeRoadMap"
 
       - name: Squash Merge
         uses: pascalgn/automerge-action@v0.14.3
-        if: steps.haslabel.outputs.labeled-合併路線圖
+        if: steps.haslabel.outputs.labeled-MergeRoadMap
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          MERGE_LABELS: "合併路線圖"
-          MERGE_REMOVE_LABELS: "合併路線圖"
+          MERGE_LABELS: "MergeRoadMap"
+          MERGE_REMOVE_LABELS: "MergeRoadMap"
           MERGE_COMMIT_MESSAGE: "ci: RoadMap Update #{pullRequest.number}"
           MERGE_REQUIRED_APPROVALS: 0
           MERGE_DELETE_BRANCH: true
