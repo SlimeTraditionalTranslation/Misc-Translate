@@ -65,14 +65,14 @@ jobs:
 
       - name: Commit the change
         run: |
+          echo ">> GPG Info"
           gpg -K
-          GIT_TRACE=1 git commit
           echo ">> Trying Add All Files..."
           git add -A
           echo ">> Print Out Status"
           git status
           echo ">> Commint!"
-          git commit -S -m "ci: [Auto] RoadMap Update"
+          GIT_TRACE=1 git commit -S -m "ci: [Auto] RoadMap Update"
         working-directory: ${{ env.working-directory }}
 
       - name: Create Update Pull Request
