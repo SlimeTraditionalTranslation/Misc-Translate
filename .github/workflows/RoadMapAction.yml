@@ -67,7 +67,8 @@ jobs:
         run: |
           gpg -K
           GIT_TRACE=1 git commit
-          git add .
+          git add --all
+          git status
           git commit -S -m "ci: [Auto] RoadMap Update"
         working-directory: ${{ env.working-directory }}
 
