@@ -89,12 +89,12 @@ jobs:
         uses: rjstone/discord-webhook-notify@v1
         with:
           severity: info
-          username: RoadMapUpdater
+          username: RoadMap-Updater
           avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
           description: |
             **路線圖已自動更新並合併，需要檢查最新翻譯！**
             **變動合併資訊**：[#${{ steps.cpr.outputs.pull-request-number }}](${{ steps.cpr.outputs.pull-request-url }})
-          footer: "自動化合併更新"
+          footer: "自動化合併通知"
           text: "<@292313547227136001>"
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK_ADMIN }}
 
