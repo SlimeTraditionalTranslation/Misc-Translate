@@ -65,6 +65,7 @@ jobs:
 
       - name: Commit the change
         run: |
+          export GPG_TTY=$(tty)
           echo ">> GPG Info"
           gpg -K
           echo ">> Key Info"
