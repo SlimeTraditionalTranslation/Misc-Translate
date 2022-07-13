@@ -59,8 +59,9 @@ jobs:
 
       - name: Commit the change
         run: |
+          git config --global gpg.program gpg1
           git add RoadMap.md
-          git commit -m "ci: [Auto] RoadMap Update"
+          git commit -S -m "ci: [Auto] RoadMap Update"
         working-directory: ${{ env.working-directory }}
 
       - name: Create Update Pull Request
