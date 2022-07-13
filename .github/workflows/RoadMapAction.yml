@@ -72,28 +72,6 @@ jobs:
           text: "<@292313547227136001>"
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK_ADMIN }}
 
-  RoadMapMerge:
-    name: Auto Merge RoadMap
-    runs-on: ubuntu-latest
-    needs: RoadMapUpdater
-    steps:
-      - name: Sleep 20s
-        run: sleep 20s
-
-      - name: Merge RoadMap
-        uses: "pascalgn/automerge-action@v0.14.3"
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          MERGE_LABELS: "合併路線圖"
-          MERGE_REMOVE_LABELS: "合併路線圖"
-          MERGE_COMMIT_MESSAGE: "ci: RoadMap Update #{pullRequest.number}"
-          MERGE_REQUIRED_APPROVALS: 0
-          MERGE_DELETE_BRANCH: true
-          MERGE_METHOD: "squash"
-          MERGE_FORKS: "false"
-          UPDATE_LABELS: ""
-          UPDATE_METHOD: "rebase"
-
   RoadMapSync:
     name: RoadMap Sync
     runs-on: ubuntu-latest
