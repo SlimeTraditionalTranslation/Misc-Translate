@@ -57,11 +57,12 @@ jobs:
           git_user_signingkey: true
           git_commit_gpgsign: true
 
-      # - name: Commit the change
-      #   run: |
-      #     git add RoadMap.md
-      #     git commit -S -m "ci: [Auto] RoadMap Update"
-      #   working-directory: ${{ env.working-directory }}
+      - name: Commit the change
+        run: |
+          gpg -K
+          git add RoadMap.md
+          git commit -S -m "ci: [Auto] RoadMap Update"
+        working-directory: ${{ env.working-directory }}
 
       - name: Create Update Pull Request
         uses: peter-evans/create-pull-request@v4
@@ -73,10 +74,10 @@ jobs:
             由 [create-pull-request](https://github.com/peter-evans/create-pull-request) 製作!
           branch: update/roadmap
           delete-branch: true
-          commit-message: "ci: [Auto] RoadMap Update"
-          committer: ${{ steps.gpg.outputs.name }} <${{ steps.gpg.outputs.email }}>
           token: ${{ secrets.EFI_BOT_TOKEN }}
           author: ${{ steps.gpg.outputs.name }} <${{ steps.gpg.outputs.email }}>
+          # commit-message: "ci: [Auto] RoadMap Update"
+          # committer: ${{ steps.gpg.outputs.name }} <${{ steps.gpg.outputs.email }}>
 
       - name: Auto PR approve
         if: steps.cpr.outputs.pull-request-operation == 'created'
