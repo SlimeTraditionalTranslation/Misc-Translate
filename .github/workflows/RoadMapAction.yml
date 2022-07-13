@@ -48,17 +48,38 @@ jobs:
           args: ./RoadMap/RoadMap.md
           fix: true
 
+      - name: Setup git config
+        uses: crazy-max/ghaction-import-gpg@v4
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+
+      - name: Commit the change
+        run: |
+          git add .
+          git commit -S -m "ci: [Auto] RoadMap Update"
+        working-directory: ${{ env.working-directory }}
+
       - name: Create Update Pull Request
         uses: peter-evans/create-pull-request@v4
+        id: cpr
         with:
-          title: "[Auto] RoadMap Update"
+          title: "[Automated] RoadMap Update"
           body: |
             自動化更新黏液科技路線圖
             由 [create-pull-request](https://github.com/peter-evans/create-pull-request) 製作!
-          commit-message: "ci: [Auto] RoadMap Update"
           branch: update/roadmap
           delete-branch: true
-          assignees: xMikux
+
+      - name: Pull Request Automerge
+        if: steps.cpr.outputs.pull-request-operation == 'created'
+        uses: peter-evans/enable-pull-request-automerge@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+          merge-method: squash
 
       - name: Notify with Discord Webhook
         uses: rjstone/discord-webhook-notify@v1
@@ -68,6 +89,7 @@ jobs:
           avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
           description: |
             **路線圖已自動更新並合併，需要檢查最新翻譯！**
+            **變動合併資訊**：${{ steps.cpr.outputs.pull-request-url }}
           footer: "自動化合併更新"
           text: "<@292313547227136001>"
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK_ADMIN }}
