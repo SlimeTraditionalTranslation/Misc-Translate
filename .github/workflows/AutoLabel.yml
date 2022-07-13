@@ -8,7 +8,7 @@ jobs:
       contents: read
       pull-requests: write
     if: |
-      github.repository == 'Misc-Translate'
+      github.repository == 'SlimeTraditionalTranslation/Misc-Translate'
     runs-on: ubuntu-latest
     steps:
       - name: Auto Labeler

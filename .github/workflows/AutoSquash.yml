@@ -16,7 +16,7 @@ jobs:
     name: Squash Crowdin
     runs-on: ubuntu-latest
     if: |
-      github.repository == 'Misc-Translate'
+      github.repository == 'SlimeTraditionalTranslation/Misc-Translate'
     steps:
       - name: Check Label
         id: haslabel
@@ -68,7 +68,7 @@ jobs:
     name: Squash RoadMap
     runs-on: ubuntu-latest
     if: |
-      github.repository == 'Misc-Translate'
+      github.repository == 'SlimeTraditionalTranslation/Misc-Translate'
     steps:
       - name: Check Label
         id: haslabel
