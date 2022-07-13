@@ -21,12 +21,11 @@ jobs:
         id: haslabel
         uses: DanielTamkin/HasLabel@v1.0.4
         with:
-          exact: "合併翻譯"
+          contains: "合併翻譯"
 
       - name: Squash Merge
         uses: pascalgn/automerge-action@v0.14.3
         if: steps.haslabel.outputs.labeled-MergeTranslate
-        continue-on-error: true
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           MERGE_LABELS: "MergeTranslate"
@@ -47,7 +46,7 @@ jobs:
         id: haslabel
         uses: DanielTamkin/HasLabel@v1.0.4
         with:
-          exact: "MergeRoadMap"
+          contains: "MergeRoadMap"
 
       - name: Squash Merge
         uses: pascalgn/automerge-action@v0.14.3
