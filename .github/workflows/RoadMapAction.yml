@@ -50,6 +50,7 @@ jobs:
 
       - name: Setup git config
         uses: crazy-max/ghaction-import-gpg@v4
+        id: gpg
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
@@ -58,8 +59,8 @@ jobs:
 
       - name: Commit the change
         run: |
-          git add .
-          git commit -S -m "ci: [Auto] RoadMap Update"
+          git add RoadMap.md
+          git commit -m "ci: [Auto] RoadMap Update"
         working-directory: ${{ env.working-directory }}
 
       - name: Create Update Pull Request
@@ -72,6 +73,8 @@ jobs:
             由 [create-pull-request](https://github.com/peter-evans/create-pull-request) 製作!
           branch: update/roadmap
           delete-branch: true
+          token: ${{ secrets.EFI_BOT_TOKEN }}
+          author: ${{ steps.gpg.outputs.name }} <${{ steps.gpg.outputs.email }}>
 
       - name: Pull Request Automerge
         if: steps.cpr.outputs.pull-request-operation == 'created'
