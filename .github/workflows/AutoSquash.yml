@@ -21,7 +21,7 @@ jobs:
         id: haslabel
         uses: DanielTamkin/HasLabel@v1.0.4
         with:
-          contains: "合併翻譯"
+          contains: "MergeTranslate"
 
       - name: Squash Merge
         uses: pascalgn/automerge-action@v0.14.3
