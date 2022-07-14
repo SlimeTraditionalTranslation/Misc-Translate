@@ -32,19 +32,44 @@ jobs:
             commit_message: "ci(Action): Automatic update (#{pullRequest.number})"
 
     steps:
-      # - name: Checking Label
-      #   id: haslabel
-      #   uses: DanielTamkin/HasLabel@v1.0.4
-      #   with:
-      #     contains: ${{ matrix.label }}
+      - name: Checking Label
+        id: haslabel
+        uses: DanielTamkin/HasLabel@v1.0.4
+        with:
+          contains: ${{ matrix.label }}
+
+        - name: Step Status (${{ matrix.name }})
+          id: step_status
+          run: |
+            if [ ${{ matrix.name }} = "Crowdin" ]; then
+              if [ ${{ steps.haslabel.outputs.labeled-AutoSquash_Crowdin }} = true ]; then
+                echo "::set-output name=STATUS::TRUE"
+              else
+                echo "::set-output name=STATUS::FALSE"
+              fi
+            elif [ ${{ matrix.name }} = "Action" ]; then
+              if [ ${{ steps.haslabel.outputs.labeled-AutoSquash_RoadMap }} = true ]; then
+                echo "::set-output name=STATUS::TRUE"
+              else
+                echo "::set-output name=STATUS::FALSE"
+              fi
+            elif [ ${{ matrix.name }} = "Action" ]; then
+              if [ ${{ steps.haslabel.outputs.labeled-AutoSquash_Action }} = true ]; then
+                echo "::set-output name=STATUS::TRUE"
+              else
+                echo "::set-output name=STATUS::FALSE"
+              fi
+            else
+              echo ">>>> ERROR"
+              echo "::set-output name=STATUS::FALSE"
+            fi
 
       - name: Wait 30s Crowdin finish add all translate
-        if: ${{ contains(github.event.pull_request.labels.*.names, 'AutoSquash_Crowdin') }}
+        if: steps.haslabel.outputs.labeled-AutoSquash_Crowdin
         run: sleep 30s
 
       - name: Auto Crowdin PR approve
-        # if: steps.haslabel.outputs.labeled-AutoSquash_Crowdin
-        if: ${{ contains(github.event.pull_request.labels.*.names, 'AutoSquash_Crowdin') }}
+        if: steps.haslabel.outputs.labeled-AutoSquash_Crowdin
         uses: juliangruber/approve-pull-request-action@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -52,7 +77,7 @@ jobs:
 
       - name: Squash Merge
         uses: pascalgn/automerge-action@v0.15.3
-        if: ${{ contains(github.event.pull_request.labels.*.names, matrix.label) }}
+        if: ${{ steps.step_status.outputs.STATUS == 'true' }}
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           MERGE_LABELS: ${{ matrix.label }}
@@ -67,7 +92,7 @@ jobs:
 
       - name: Notify with Discord Webhook
         uses: rjstone/discord-webhook-notify@v1
-        if: ${{ contains(github.event.pull_request.labels.*.names, 'AutoSquash_Crowdin') }}
+        if: steps.haslabel.outputs.labeled-AutoSquash_Crowdin
         with:
           severity: info
           username: RoadMap-Crowdin
@@ -81,7 +106,7 @@ jobs:
 
       - name: Trigger Sync Action
         uses: benc-uk/workflow-dispatch@v1
-        if: ${{ contains(github.event.pull_request.labels.*.names, 'AutoSquash_Crowdin') }}
+        if: steps.haslabel.outputs.labeled-AutoSquash_Crowdin
         with:
           workflow: RoadMapAction
           token: ${{ secrets.EFI_BOT_TOKEN }}
