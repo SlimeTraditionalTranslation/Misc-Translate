@@ -16,7 +16,8 @@ if [ "$1" = 0 ]; then
   ls -alh
 
   echo ">> Making docs title info..."
-  echo -e "---\ntitle: \"🚀 黏液科技官方路線圖\"\nsidebar_position: 1\n---\n" > RoadMap.md
+  printf "---\ntitle: \"🚀 黏液科技官方路線圖\"\nsidebar_position: 1\n---\n" > RoadMap.md
+#   echo -e "---\ntitle: \"🚀 黏液科技官方路線圖\"\nsidebar_position: 1\n---\n" > RoadMap.md
   echo ">> ......"
 
   echo ">> DEBUG Get Current Files & Path"
