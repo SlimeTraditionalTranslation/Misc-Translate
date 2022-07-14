@@ -11,11 +11,11 @@ on:
         options:
         - Updater
         - Sync
-  push:
-    branches:
-      - main
-    paths:
-      - RoadMap/**
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - RoadMap/**
   schedule:
     - cron: "0 16 * * 1"
 
