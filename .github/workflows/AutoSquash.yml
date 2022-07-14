@@ -80,11 +80,8 @@ jobs:
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK_ADMIN }}
 
       - name: Trigger Sync Action
-        if: steps.haslabel.outputs.labeled-AutoSquash_Crowdin
-        run: |
-          sleep 10s
-          curl https://api.github.com/repos/SlimeTraditionalTranslation/Misc-Translate/actions/workflows/RoadMapAction.yml/dispatches \
-          -X POST \
-          -H "Accept: application/vnd.github+json" \ 
-          -H "Authorization: token ${{ secrets.EFI_BOT_TOKEN }}" \
-          -d '{"ref":"main","inputs":{"chooser":"Sync"}}'
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: RoadMapAction
+          token: ${{ secrets.EFI_BOT_TOKEN }}
+          inputs: '{ "chooser": "Sync" }'
