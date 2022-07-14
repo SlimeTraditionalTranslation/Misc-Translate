@@ -38,76 +38,60 @@ jobs:
         with:
           contains: ${{ matrix.label }}
 
-        - name: Step Status (${{ matrix.name }})
-          id: step_status
-          run: |
-            if [ ${{ matrix.name }} = "Crowdin" ]; then
-              if [ ${{ steps.haslabel.outputs.labeled-AutoSquash_Crowdin }} = true ]; then
-                echo "::set-output name=STATUS::TRUE"
-              else
-                echo "::set-output name=STATUS::FALSE"
-              fi
-            elif [ ${{ matrix.name }} = "Action" ]; then
-              if [ ${{ steps.haslabel.outputs.labeled-AutoSquash_RoadMap }} = true ]; then
-                echo "::set-output name=STATUS::TRUE"
-              else
-                echo "::set-output name=STATUS::FALSE"
-              fi
-            elif [ ${{ matrix.name }} = "Action" ]; then
-              if [ ${{ steps.haslabel.outputs.labeled-AutoSquash_Action }} = true ]; then
-                echo "::set-output name=STATUS::TRUE"
-              else
-                echo "::set-output name=STATUS::FALSE"
-              fi
-            else
-              echo ">>>> ERROR"
-              echo "::set-output name=STATUS::FALSE"
-            fi
-
-      - name: Wait 30s Crowdin finish add all translate
-        if: steps.haslabel.outputs.labeled-AutoSquash_Crowdin
-        run: sleep 30s
-
-      - name: Auto Crowdin PR approve
-        if: steps.haslabel.outputs.labeled-AutoSquash_Crowdin
-        uses: juliangruber/approve-pull-request-action@v1
+      - name: Check PR labels action step
+        id: check_pr_labels
+        uses: shioyang/check-pr-labels-on-push-action@v1.0.3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          number: ${{ github.event.number }}
+          labels: ${{ matrix.label }}
 
-      - name: Squash Merge
-        uses: pascalgn/automerge-action@v0.15.3
-        if: ${{ steps.step_status.outputs.STATUS == 'true' }}
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          MERGE_LABELS: ${{ matrix.label }}
-          MERGE_REMOVE_LABELS: ${{ matrix.label }}
-          MERGE_COMMIT_MESSAGE: ${{ matrix.commit_message }}
-          MERGE_REQUIRED_APPROVALS: 0
-          MERGE_DELETE_BRANCH: true
-          MERGE_METHOD: "squash"
-          MERGE_FORKS: "false"
-          UPDATE_LABELS: ""
-          UPDATE_METHOD: "rebase"
+      - name: See result
+        run: echo "${{ steps.check_pr_labels.outputs.result }}"
 
-      - name: Notify with Discord Webhook
-        uses: rjstone/discord-webhook-notify@v1
-        if: steps.haslabel.outputs.labeled-AutoSquash_Crowdin
-        with:
-          severity: info
-          username: RoadMap-Crowdin
-          avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
-          description: |
-            **翻譯已自動進行合併！**
-            **變動合併資訊**：[#${{ github.event.number }}](https://github.com/SlimeTraditionalTranslation/Misc-Translate/pull/${{ github.event.number }})
-          footer: "自動化合併通知"
-          text: "<@292313547227136001>"
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK_ADMIN }}
+      # - name: Wait 30s Crowdin finish add all translate
+      #   if: steps.haslabel.outputs.labeled-AutoSquash_Crowdin
+      #   run: sleep 30s
 
-      - name: Trigger Sync Action
-        uses: benc-uk/workflow-dispatch@v1
-        if: steps.haslabel.outputs.labeled-AutoSquash_Crowdin
-        with:
-          workflow: RoadMapAction
-          token: ${{ secrets.EFI_BOT_TOKEN }}
-          inputs: '{ "ref":"main","chooser":"Sync" }'
+      # - name: Auto Crowdin PR approve
+      #   if: steps.haslabel.outputs.labeled-AutoSquash_Crowdin
+      #   uses: juliangruber/approve-pull-request-action@v1
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     number: ${{ github.event.number }}
+
+      # - name: Squash Merge
+      #   uses: pascalgn/automerge-action@v0.15.3
+      #   if: ${{ steps.step_status.outputs.STATUS == 'true' }}
+      #   env:
+      #     GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      #     MERGE_LABELS: ${{ matrix.label }}
+      #     MERGE_REMOVE_LABELS: ${{ matrix.label }}
+      #     MERGE_COMMIT_MESSAGE: ${{ matrix.commit_message }}
+      #     MERGE_REQUIRED_APPROVALS: 0
+      #     MERGE_DELETE_BRANCH: true
+      #     MERGE_METHOD: "squash"
+      #     MERGE_FORKS: "false"
+      #     UPDATE_LABELS: ""
+      #     UPDATE_METHOD: "rebase"
+
+      # - name: Notify with Discord Webhook
+      #   uses: rjstone/discord-webhook-notify@v1
+      #   if: steps.haslabel.outputs.labeled-AutoSquash_Crowdin
+      #   with:
+      #     severity: info
+      #     username: RoadMap-Crowdin
+      #     avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
+      #     description: |
+      #       **翻譯已自動進行合併！**
+      #       **變動合併資訊**：[#${{ github.event.number }}](https://github.com/SlimeTraditionalTranslation/Misc-Translate/pull/${{ github.event.number }})
+      #     footer: "自動化合併通知"
+      #     text: "<@292313547227136001>"
+      #     webhookUrl: ${{ secrets.DISCORD_WEBHOOK_ADMIN }}
+
+      # - name: Trigger Sync Action
+      #   uses: benc-uk/workflow-dispatch@v1
+      #   if: steps.haslabel.outputs.labeled-AutoSquash_Crowdin
+      #   with:
+      #     workflow: RoadMapAction
+      #     token: ${{ secrets.EFI_BOT_TOKEN }}
+      #     inputs: '{ "ref":"main","chooser":"Sync" }'
