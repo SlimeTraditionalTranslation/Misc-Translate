@@ -11,14 +11,28 @@ if [ "$1" = 0 ]; then
   echo ">> Update RoadMap Script"
   echo ">> ......"
 
+  echo ">> DEBUG Get Current Files & Path"
+  pwd
+  ls -alh
+
   echo ">> Making docs title info..."
   echo -e "---\ntitle: \"🚀 黏液科技官方路線圖\"\nsidebar_position: 1\n---\n" > RoadMap.md
   echo ">> ......"
+
+  echo ">> DEBUG Get Current Files & Path"
+  pwd
+  ls -alh
+  cat RoadMap.md
 
   echo ">> Get latest RoadMap issus body..."
   curl "https://api.github.com/repos/Slimefun/Slimefun4/issues/3170" \
   -H "Accept: application/vnd.github+json" | \
   jq -r .body >> RoadMap.md
+
+  echo ">> DEBUG Get Current Files & Path"
+  pwd
+  ls -alh
+  cat RoadMap.md
 
 elif [ "$1" = 1 ]; then
   echo ">> Commit Script"
