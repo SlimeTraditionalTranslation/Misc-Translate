@@ -81,7 +81,8 @@ jobs:
 
       - name: Trigger Sync Action
         uses: benc-uk/workflow-dispatch@v1
+        if: steps.haslabel.outputs.labeled-AutoSquash_Crowdin
         with:
           workflow: RoadMapAction
           token: ${{ secrets.EFI_BOT_TOKEN }}
-          inputs: '{ "chooser": "Sync" }'
+          inputs: '{ "ref":"main","chooser": "Sync" }'
