@@ -22,13 +22,13 @@ jobs:
       matrix:
         include:
           - name: "Crowdin"
-            label: "AutoSquash_Crowdin"
+            label: "AutoSquash-Crowdin"
             commit_message: "ci(Crowdin): Automatic update (#{pullRequest.number})"
           - name: "RoadMap"
-            label: "AutoSquash_RoadMap"
+            label: "AutoSquash-RoadMap"
             commit_message: "ci(RoadMap): Automatic update (#{pullRequest.number})"
           - name: "Action"
-            label: "AutoSquash_Action"
+            label: "AutoSquash-Action"
             commit_message: "ci(Action): Automatic update (#{pullRequest.number})"
 
     steps:
@@ -43,7 +43,7 @@ jobs:
         uses: shioyang/check-pr-labels-on-push-action@v1.0.3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          labels: '[ "AutoSquash_Crowdin" ]'
+          labels: '[ "AutoSquash-Crowdin" ]'
 
       - name: See result
         run: echo "${{ steps.check_pr_labels.outputs.result }}"
