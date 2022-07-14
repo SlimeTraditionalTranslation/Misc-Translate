@@ -1,2 +1,8 @@
-MergeRoadMap:
+AutoSquash_RoadMap:
 - RoadMap/RoadMap.md
+
+AutoSquash_Crowdin:
+- RoadMap/RoadMap-zh_TW.md
+
+AutoSquash_Action:
+- .github/workflows/*.yml

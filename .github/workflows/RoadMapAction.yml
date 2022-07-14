@@ -30,16 +30,20 @@ jobs:
     steps:
       - name: Checking Repostiory
         uses: actions/checkout@v3
+
+      - name: Setup git config
+        uses: crazy-max/ghaction-import-gpg@v5
+        id: gpg
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
       
-      - name: Get Slimefun Issus RoadMap
+      - name: Run Update Script
         working-directory: ${{ env.working-directory }}
         run: |
-          echo -e "---\ntitle: \"🚀 黏液科技官方路線圖\"\nsidebar_position: 1\n---\n" > RoadMap.md
-          echo "Get Issus"
-          curl \
-          -H "Accept: application/vnd.github+json" \
-          https://api.github.com/repos/Slimefun/Slimefun4/issues/3170 | \
-          jq -r .body >> RoadMap.md
+          sh ../.github/scripts/RoadMap.sh 0
 
       - name: Lint RoadMap
         uses: avto-dev/markdown-lint@v1.5.0
@@ -48,48 +52,75 @@ jobs:
           args: ./RoadMap/RoadMap.md
           fix: true
 
+      - name: Run Commit Script
+        working-directory: ${{ env.working-directory }}
+        run: |
+          sh ../.github/scripts/RoadMap.sh 1
+
       - name: Create Update Pull Request
         uses: peter-evans/create-pull-request@v4
+        id: cpr
         with:
-          title: "[Auto] RoadMap Update"
+          title: "[Automated] RoadMap Updater"
           body: |
             自動化更新黏液科技路線圖
             由 [create-pull-request](https://github.com/peter-evans/create-pull-request) 製作!
-          commit-message: "ci: [Auto] RoadMap Update"
           branch: update/roadmap
           delete-branch: true
-          assignees: xMikux
+          token: ${{ secrets.EFI_BOT_TOKEN }}
+          author: ${{ steps.gpg.outputs.name }} <${{ steps.gpg.outputs.email }}>
+
+      - name: Auto PR approve
+        if: steps.cpr.outputs.pull-request-operation == 'created'
+        uses: juliangruber/approve-pull-request-action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          number: ${{ steps.cpr.outputs.pull-request-number }}
 
       - name: Notify with Discord Webhook
         uses: rjstone/discord-webhook-notify@v1
         with:
           severity: info
-          username: RoadMapUpdater
+          username: RoadMap-Updater
           avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
           description: |
-            **路線圖已自動更新並合併，需要檢查最新翻譯！
-          footer: "自動化 Action"
+            **路線圖已自動更新並合併，需要檢查最新翻譯！**
+            **變動合併資訊**：[#${{ steps.cpr.outputs.pull-request-number }}](${{ steps.cpr.outputs.pull-request-url }})
+          footer: "自動化合併通知"
           text: "<@292313547227136001>"
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK_ADMIN }}
 
   RoadMapSync:
     name: RoadMap Sync
     runs-on: ubuntu-latest
-    if: inputs.chooser == 'Sync'
+    if: ${{ inputs.chooser == 'Sync' }}
     steps:
       - name: Checking Repostiory
         uses: actions/checkout@v3
 
-      - name: Checking Change
-        id: changed-files
-        uses: tj-actions/changed-files@v23.1
+      - name: Setup git config
+        uses: crazy-max/ghaction-import-gpg@v5
+        id: gpg
         with:
-          other_modified_files: |
-            RoadMap/RoadMap-zh_TW.md
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+          git_config_global: true
 
-      - name: Hello World
-        if: steps.changed-files-specific.outputs.any_changed == 'true'
-        run: echo "hEllo Wo"
+      # - name: Checking Change
+      #   id: changed-files
+      #   uses: tj-actions/changed-files@v23.1
+      #   with:
+      #     other_modified_files: |
+      #       RoadMap/RoadMap-zh_TW.md
 
-      - name: World Hello
-        run: echo "Wo Hello"
+      # - name: Hello World
+      #   if: steps.changed-files-specific.outputs.any_changed == 'true'
+      #   run: echo "hEllo Wo"
+
+      - name: Sync Script
+        env:
+          EFI_BOT_TOKEN: ${{ secrets.EFI_BOT_TOKEN }}
+        run: |
+          sh .github/scripts/RoadMap.sh 2
