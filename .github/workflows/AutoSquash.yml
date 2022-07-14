@@ -83,9 +83,8 @@ jobs:
         if: steps.haslabel.outputs.labeled-AutoSquash_Crowdin
         run: |
           sleep 10s
-          curl \
-            -X POST \
-            -H "Accept: application/vnd.github+json" \ 
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            https://api.github.com/repos/SlimeTraditionalTranslation/Misc-Translate/actions/workflows/RoadMapAction.yml/dispatches \
-            -d '{"ref":"main","inputs":{"chooser":"Sync"}}'
+          curl https://api.github.com/repos/SlimeTraditionalTranslation/Misc-Translate/actions/workflows/RoadMapAction.yml/dispatches \
+          -X POST \
+          -H "Accept: application/vnd.github+json" \ 
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -d '{"ref":"main","inputs":{"chooser":"Sync"}}'
