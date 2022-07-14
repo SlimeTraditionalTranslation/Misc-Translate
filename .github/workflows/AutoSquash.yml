@@ -52,7 +52,7 @@ jobs:
 
       - name: Squash Merge
         uses: pascalgn/automerge-action@v0.15.3
-        if: steps.haslabel.outputs.labeled-${{ matrix.label }}
+        if: steps.haslabel.outputs.labeled-matrix.label
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           MERGE_LABELS: ${{ matrix.label }}
@@ -80,11 +80,9 @@ jobs:
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK_ADMIN }}
 
       - name: Trigger Sync Action
+        uses: benc-uk/workflow-dispatch@v1
         if: steps.haslabel.outputs.labeled-AutoSquash_Crowdin
-        run: |
-          sleep 10s
-          curl https://api.github.com/repos/SlimeTraditionalTranslation/Misc-Translate/actions/workflows/RoadMapAction.yml/dispatches \
-          -X POST \
-          -H "Accept: application/vnd.github+json" \ 
-          -H "Authorization: token ${{ secrets.EFI_BOT_TOKEN }}" \
-          -d '{"ref":"main","inputs":{"chooser":"Sync"}}'
+        with:
+          workflow: RoadMapAction
+          token: ${{ secrets.EFI_BOT_TOKEN }}
+          inputs: '{ "ref":"main","chooser":"Sync" }'
