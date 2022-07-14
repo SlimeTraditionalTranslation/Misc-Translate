@@ -43,7 +43,7 @@ jobs:
       - name: Run Update Script
         working-directory: ${{ env.working-directory }}
         run: |
-          sh ./.github/scripts/RoadMap.sh 0
+          sh ${{ env.GITHUB_WORKSPACE }}/.github/scripts/RoadMap.sh 0
 
       - name: Lint RoadMap
         uses: avto-dev/markdown-lint@v1.5.0
@@ -55,7 +55,7 @@ jobs:
       - name: Run Commit Script
         working-directory: ${{ env.working-directory }}
         run: |
-          sh ./.github/scripts/RoadMap.sh 1
+          sh ${{ env.GITHUB_WORKSPACE }}/.github/scripts/RoadMap.sh 1
 
       - name: Create Update Pull Request
         uses: peter-evans/create-pull-request@v4
@@ -122,4 +122,4 @@ jobs:
         env:
           EFI_BOT_TOKEN: ${{ secrets.EFI_BOT_TOKEN }}
         run: |
-          sh ./.github/scripts/RoadMap.sh 2
+          sh .github/scripts/RoadMap.sh 2

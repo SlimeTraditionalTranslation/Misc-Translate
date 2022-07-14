@@ -43,7 +43,7 @@ elif [ "$1" = 2 ]; then
   cd $Replace_Path || exit
   #rm $Replace_File
   rm Road-Map.md
-  cp "$HOME/$Replace_OriginalPath/$Replace_FileName" .
+  cp "$GITHUB_WORKSPACE/$Replace_OriginalPath/$Replace_FileName" .
   echo ">> ......"
 
   echo ">> Committing changes..."
