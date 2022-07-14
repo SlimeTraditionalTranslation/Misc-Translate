@@ -36,7 +36,7 @@ jobs:
           number: ${{ github.event.number }}
 
       - name: Squash Merge
-        uses: pascalgn/automerge-action@v0.14.3
+        uses: pascalgn/automerge-action@v0.15.3
         if: steps.haslabel.outputs.labeled-MergeTranslate
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
@@ -77,7 +77,7 @@ jobs:
           contains: "MergeRoadMap"
 
       - name: Squash Merge
-        uses: pascalgn/automerge-action@v0.14.3
+        uses: pascalgn/automerge-action@v0.15.3
         if: steps.haslabel.outputs.labeled-MergeRoadMap
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
@@ -104,7 +104,7 @@ jobs:
           contains: "ActionUpdate"
 
       - name: Squash Merge
-        uses: pascalgn/automerge-action@v0.14.3
+        uses: pascalgn/automerge-action@v0.15.3
         if: |
           steps.haslabel.outputs.labeled-ActionUpdate
         env:
