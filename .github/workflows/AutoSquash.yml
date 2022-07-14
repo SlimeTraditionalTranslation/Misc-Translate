@@ -95,8 +95,7 @@ jobs:
     name: Squash Action PR
     runs-on: ubuntu-latest
     if: |
-      github.repository == 'SlimeTraditionalTranslation/Misc-Translate' &&
-      github.actor == "dependabot[bot]"
+      github.repository == 'SlimeTraditionalTranslation/Misc-Translate'
     steps:
       - name: Check Label
         id: haslabel
