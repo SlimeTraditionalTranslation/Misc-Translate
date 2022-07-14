@@ -17,8 +17,8 @@ if [ "$1" = 0 ]; then
 
   echo ">> Making docs title info..."
   echo -e "---\ntitle: \"🚀 黏液科技官方路線圖\"\nsidebar_position: 1\n---\n" > RoadMap.md
-  # Fix, don't know why it inculde -e it self
-  sed -i 's/-e//1' RoadMap.md
+  # Fix, don't know why it inculde -e by it self
+  sed -i 's/-e //1' RoadMap.md
   echo ">> ......"
 
   echo ">> DEBUG Get Current Files & Path"
