@@ -3,3 +3,6 @@ MergeRoadMap:
 
 MergeTranslate:
 - RoadMap/RoadMap-zh_TW.md
+
+ActionUpdate:
+- .github/workflows/*.yml

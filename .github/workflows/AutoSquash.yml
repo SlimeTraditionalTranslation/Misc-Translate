@@ -90,3 +90,32 @@ jobs:
           MERGE_FORKS: "false"
           UPDATE_LABELS: ""
           UPDATE_METHOD: "rebase"
+
+  ActionUpdate:
+    name: Squash Action PR
+    runs-on: ubuntu-latest
+    if: |
+      github.repository == 'SlimeTraditionalTranslation/Misc-Translate' &&
+      github.actor == "dependabot[bot]"
+    steps:
+      - name: Check Label
+        id: haslabel
+        uses: DanielTamkin/HasLabel@v1.0.4
+        with:
+          contains: "ActionUpdate"
+
+      - name: Squash Merge
+        uses: pascalgn/automerge-action@v0.14.3
+        if: |
+          steps.haslabel.outputs.labeled-ActionUpdate
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          MERGE_LABELS: "ActionUpdate"
+          MERGE_REMOVE_LABELS: "ActionUpdate"
+          MERGE_COMMIT_MESSAGE: "ci: Action Update #{pullRequest.number}"
+          MERGE_REQUIRED_APPROVALS: 1
+          MERGE_DELETE_BRANCH: true
+          MERGE_METHOD: "squash"
+          MERGE_FORKS: "false"
+          UPDATE_LABELS: ""
+          UPDATE_METHOD: "rebase"
