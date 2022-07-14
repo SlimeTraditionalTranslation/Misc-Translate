@@ -26,7 +26,7 @@ sidebar_position: 1
 
 ### 🔧 ~~(2021 年 9 月 3 日) API 遷移~~ - **完成**
 
-第一個即將到來的變化是我們的一些 class 的重新定位，以統一化一些套件（packages），來擺脫舊的 class 路徑，並遵循規範。 你可以在這裡閱讀更多有關此的資訊：<https://github.com/Slimefun/Slimefun4/pull/3139>
+第一個即將到來的變化是我們的一些 class 的重新定位，以統一化部分套件（packages），來擺脫舊的 class 路徑，並遵循規範。 你可以在這裡閱讀更多有關此的資訊：<https://github.com/Slimefun/Slimefun4/pull/3139>
 
 </details>
 
