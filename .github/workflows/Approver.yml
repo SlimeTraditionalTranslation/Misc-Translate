@@ -23,6 +23,7 @@ jobs:
         uses: actions-ecosystem/action-remove-labels@v1
         with:
           labels: "AutoSquash-Crowdin"
+          github_token: ${{ secrets.EFI_BOT_TOKEN }}
           number: ${{ inputs.prnumber }}
 
       - name: Sleeping 1m
@@ -32,4 +33,5 @@ jobs:
         uses: actions-ecosystem/action-add-labels@v1
         with:
           labels: "AutoSquash-Crowdin"
+          github_token: ${{ secrets.EFI_BOT_TOKEN }}
           number: ${{ inputs.prnumber }}
