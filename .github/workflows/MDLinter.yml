@@ -1,0 +1,22 @@
+name: RoadMapAction
+
+on:
+  pull_request:
+    types:
+      - opened
+    paths:
+      - '**.md'
+
+jobs:
+  MDLinter:
+    name: MDLinter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checking Repostiory
+        uses: actions/checkout@v3
+
+      - name: Lint Markdown Files
+        uses: docker://avtodev/markdown-lint:v1.5.0
+        with:
+          config: ".github/configs/markdown-lint.yaml"
+          args: "*.md"
