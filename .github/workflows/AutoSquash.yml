@@ -95,7 +95,7 @@ jobs:
         uses: rjstone/discord-webhook-notify@v1
         if: |
           steps.haslabel.outputs.labeled-AutoSquash-Crowdin &&
-          steps.automerge.outputs.mergeResult == 'merged'
+          steps.crowdin_merge.outputs.mergeResult == 'merged'
         with:
           severity: info
           username: RoadMap-Crowdin-Admin
@@ -111,7 +111,7 @@ jobs:
         uses: benc-uk/workflow-dispatch@v1
         if: |
           steps.haslabel.outputs.labeled-AutoSquash-Crowdin &&
-          steps.automerge.outputs.mergeResult == 'merged'
+          steps.crowdin_merge.outputs.mergeResult == 'merged'
         with:
           workflow: RoadMapAction
           token: ${{ secrets.EFI_BOT_TOKEN }}
