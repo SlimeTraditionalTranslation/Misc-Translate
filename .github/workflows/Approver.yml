@@ -13,22 +13,22 @@ jobs:
     name: Approver
     runs-on: ubuntu-latest
     steps:
-      - name: Approve Pull Request
+      - name: "Approve Pull Request #${{ inputs.prnumber }}"
         uses: juliangruber/approve-pull-request-action@v1.1.1
         with:
           github-token: ${{ secrets.EFI_BOT_TOKEN }}
           number: ${{ inputs.prnumber }}
 
-      - name: UnLabel PR ${{ inputs.prnumber }}
+      - name: "UnLabel PR #${{ inputs.prnumber }}"
         uses: actions-ecosystem/action-remove-labels@v1
         with:
           labels: "AutoSquash-Crowdin"
           number: ${{ inputs.prnumber }}
 
-      - name: Sleeping 10s
-        run: sleep 10s
+      - name: Sleeping 1m
+        run: sleep 1m
 
-      - name: Label PR ${{ inputs.prnumber }}
+      - name: "Label PR #${{ inputs.prnumber }}"
         uses: actions-ecosystem/action-add-labels@v1
         with:
           labels: "AutoSquash-Crowdin"
