@@ -5,7 +5,6 @@ on:
       - completed
   pull_request:
     types:
-      - closed
       - labeled
   pull_request_review:
     types:
@@ -13,24 +12,60 @@ on:
   status: {}
 
 jobs:
-  SquashCrowdin:
-    name: Squash Crowdin
+  SuqashAutomated:
+    name: ${{ matrix.name }} Squash
     runs-on: ubuntu-latest
+    if: |
+      github.repository == 'SlimeTraditionalTranslation/Misc-Translate'
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - name: "Crowdin"
+            label: "AutoSquash-Crowdin"
+            commit_message: "ci(Crowdin): Automatic update (#{pullRequest.number})"
+          - name: "RoadMap"
+            label: "AutoSquash-RoadMap"
+            commit_message: "ci(RoadMap): Automatic update (#{pullRequest.number})"
+          - name: "Action"
+            label: "AutoSquash-Action"
+            commit_message: "ci(Action): Automatic update (#{pullRequest.number})"
+
     steps:
-      - name: Check Label
+      - name: Crowdin Check Label
         id: haslabel
         uses: DanielTamkin/HasLabel@v1.0.4
         with:
-          contains: "MergeTranslate"
+          contains: ${{ matrix.label }}
+
+      - name: Label Check
+        id: label_check
+        env:
+          MARTIX_LABEL: ${{ matrix.label }}
+          ISSUS_ID: ${{ github.event.number }}
+        run: |
+          wget https://raw.githubusercontent.com/SlimeTraditionalTranslation/Misc-Translate/main/.github/scripts/LabelChecker.sh
+          sh LabelChecker.sh
+
+      - name: Wait 30s Crowdin finish add all translate
+        if: steps.haslabel.outputs.labeled-AutoSquash-Crowdin
+        run: sleep 30s
+
+      - name: Auto Crowdin PR approve
+        if: steps.haslabel.outputs.labeled-AutoSquash-Crowdin
+        uses: juliangruber/approve-pull-request-action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          number: ${{ github.event.number }}
 
       - name: Squash Merge
-        uses: pascalgn/automerge-action@v0.14.3
-        if: steps.haslabel.outputs.labeled-MergeTranslate
+        uses: pascalgn/automerge-action@v0.15.3
+        if: ${{ steps.label_check.outputs.LABEL_STATUS == 'true' }}
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          MERGE_LABELS: "MergeTranslate"
-          MERGE_REMOVE_LABELS: "MergeTranslate"
-          MERGE_COMMIT_MESSAGE: "ci: Crowdin Update #{pullRequest.number}"
+          MERGE_LABELS: ${{ matrix.label }}
+          MERGE_REMOVE_LABELS: ${{ matrix.label }}
+          MERGE_COMMIT_MESSAGE: ${{ matrix.commit_message }}
           MERGE_REQUIRED_APPROVALS: 0
           MERGE_DELETE_BRANCH: true
           MERGE_METHOD: "squash"
@@ -38,27 +73,24 @@ jobs:
           UPDATE_LABELS: ""
           UPDATE_METHOD: "rebase"
 
-  SquashRoadMap:
-    name: Squash RoadMap
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check Label
-        id: haslabel
-        uses: DanielTamkin/HasLabel@v1.0.4
+      - name: Notify with Discord Webhook
+        uses: rjstone/discord-webhook-notify@v1
+        if: steps.haslabel.outputs.labeled-AutoSquash-Crowdin
         with:
-          contains: "MergeRoadMap"
+          severity: info
+          username: RoadMap-Crowdin
+          avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
+          description: |
+            **翻譯已自動進行合併！**
+            **變動合併資訊**：[#${{ github.event.number }}](https://github.com/SlimeTraditionalTranslation/Misc-Translate/pull/${{ github.event.number }})
+          footer: "自動化合併通知"
+          text: "<@292313547227136001>"
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK_ADMIN }}
 
-      - name: Squash Merge
-        uses: pascalgn/automerge-action@v0.14.3
-        if: steps.haslabel.outputs.labeled-MergeRoadMap
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          MERGE_LABELS: "MergeRoadMap"
-          MERGE_REMOVE_LABELS: "MergeRoadMap"
-          MERGE_COMMIT_MESSAGE: "ci: RoadMap Update #{pullRequest.number}"
-          MERGE_REQUIRED_APPROVALS: 0
-          MERGE_DELETE_BRANCH: true
-          MERGE_METHOD: "squash"
-          MERGE_FORKS: "false"
-          UPDATE_LABELS: ""
-          UPDATE_METHOD: "rebase"
+      - name: Trigger Sync Action
+        uses: benc-uk/workflow-dispatch@v1
+        if: steps.haslabel.outputs.labeled-AutoSquash-Crowdin
+        with:
+          workflow: RoadMapAction
+          token: ${{ secrets.EFI_BOT_TOKEN }}
+          inputs: '{ "ref":"main","chooser":"Sync" }'
