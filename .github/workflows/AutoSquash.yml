@@ -68,12 +68,12 @@ jobs:
       #   if: steps.haslabel.outputs.labeled-AutoSquash-Crowdin
       #   run: sleep 30s
 
-      # - name: Auto Crowdin PR approve
-      #   if: steps.haslabel.outputs.labeled-AutoSquash-Crowdin
-      #   uses: juliangruber/approve-pull-request-action@v1
-      #   with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #     number: ${{ github.event.number }}
+      - name: Auto Crowdin PR approve
+        if: steps.haslabel.outputs.labeled-AutoSquash-Crowdin
+        uses: juliangruber/approve-pull-request-action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          number: ${{ github.event.number }}
 
       - name: Squash Crowdin Merge
         uses: pascalgn/automerge-action@v0.15.3

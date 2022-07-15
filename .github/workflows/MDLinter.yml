@@ -1,4 +1,4 @@
-name: RoadMapAction
+name: MDLinter
 
 on:
   pull_request:

@@ -1,0 +1,20 @@
+name: Approver
+
+on:
+  workflow_dispatch:
+    inputs:
+      prnumber:
+        description: "Input Approve PR ID"     
+        required: true
+        default: "-1"
+
+jobs:
+  Approver:
+    name: Approver
+    runs-on: ubuntu-latest
+    steps:
+      - name: Approve Pull Request
+        uses: juliangruber/approve-pull-request-action@v1.1.1
+        with:
+          github-token: ${{ secrets.EFI_BOT_TOKEN }}
+          number: ${{ inputs.prnumber }}
