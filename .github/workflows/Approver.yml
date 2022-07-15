@@ -18,3 +18,18 @@ jobs:
         with:
           github-token: ${{ secrets.EFI_BOT_TOKEN }}
           number: ${{ inputs.prnumber }}
+
+      - name: UnLabel PR ${{ inputs.prnumber }}
+        uses: actions-ecosystem/action-remove-labels@v1
+        with:
+          labels: "AutoSquash-Crowdin"
+          number: ${{ inputs.prnumber }}
+
+      - name: Sleeping 10s
+        run: sleep 10s
+
+      - name: Label PR ${{ inputs.prnumber }}
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: "AutoSquash-Crowdin"
+          number: ${{ inputs.prnumber }}
