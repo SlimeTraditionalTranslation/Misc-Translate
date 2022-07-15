@@ -48,7 +48,6 @@ jobs:
 
       - name: Squash Crowdin Merge
         uses: pascalgn/automerge-action@v0.15.3
-        id: crowdin_merge
         if: |
           steps.label_check.outputs.LABEL_STATUS == 'true' &&
           steps.haslabel.outputs.labeled-AutoSquash-Crowdin != 'true'
@@ -96,7 +95,7 @@ jobs:
         uses: rjstone/discord-webhook-notify@v1
         if: |
           steps.haslabel.outputs.labeled-AutoSquash-Crowdin &&
-          steps.automerge.outputs.mergeResult == "merged"
+          steps.automerge.outputs.mergeResult == 'merged'
         with:
           severity: info
           username: RoadMap-Crowdin-Admin
@@ -112,7 +111,7 @@ jobs:
         uses: benc-uk/workflow-dispatch@v1
         if: |
           steps.haslabel.outputs.labeled-AutoSquash-Crowdin &&
-          steps.automerge.outputs.mergeResult == "merged"
+          steps.automerge.outputs.mergeResult == 'merged'
         with:
           workflow: RoadMapAction
           token: ${{ secrets.EFI_BOT_TOKEN }}
