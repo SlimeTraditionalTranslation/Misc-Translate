@@ -46,7 +46,7 @@ jobs:
           wget https://raw.githubusercontent.com/SlimeTraditionalTranslation/Misc-Translate/main/.github/scripts/LabelChecker.sh
           sh LabelChecker.sh
 
-      - name: Squash Crowdin Merge
+      - name: Squash Merge
         uses: pascalgn/automerge-action@v0.15.3
         if: |
           steps.label_check.outputs.LABEL_STATUS == 'true' &&
@@ -75,7 +75,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           number: ${{ github.event.number }}
 
-      - name: Squash Crowdin Merge
+      - name: Squash Merge (Crowdin)
         uses: pascalgn/automerge-action@v0.15.3
         id: crowdin_merge
         if: steps.haslabel.outputs.labeled-AutoSquash-Crowdin
