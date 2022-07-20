@@ -32,7 +32,7 @@ elif [ "$1" = 1 ]; then
   echo ">> Commit Script"
   echo ">> Committing..."
   git add RoadMap.md
-  git commit -S -m "ci(RoadMap): Automatic RoadMap Updater"
+  git commit -S -m "ci(RoadMap): Automatic RoadMap Updater" || true
 
 elif [ "$1" = 2 ]; then
   echo ">> Auto Deploy RoadMap Script"
@@ -61,7 +61,7 @@ elif [ "$1" = 2 ]; then
 
   echo ">> Pushing change to website..."
   git remote set-url origin https://${EFI_BOT_TOKEN}@github.com/SlimeTraditionalTranslation/SlimeTraditionalTranslation.github.io.git
-  git push origin main 
+  git push origin main || true
   echo ">> ......"
 
 else
