@@ -78,6 +78,7 @@ jobs:
           number: ${{ steps.cpr.outputs.pull-request-number }}
 
       - name: Notify with Discord Webhook
+        if: steps.cpr.outputs.pull-request-operation == 'created'
         uses: rjstone/discord-webhook-notify@v1
         with:
           severity: info
