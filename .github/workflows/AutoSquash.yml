@@ -47,7 +47,7 @@ jobs:
           sh LabelChecker.sh
 
       - name: Squash Merge
-        uses: pascalgn/automerge-action@v0.15.3
+        uses: pascalgn/automerge-action@v0.15.5
         if: |
           steps.label_check.outputs.LABEL_STATUS == 'true' &&
           steps.haslabel.outputs.labeled-AutoSquash-Crowdin != 'true'
@@ -76,7 +76,7 @@ jobs:
           number: ${{ github.event.number }}
 
       - name: Squash Merge (Crowdin)
-        uses: pascalgn/automerge-action@v0.15.3
+        uses: pascalgn/automerge-action@v0.15.5
         id: crowdin_merge
         if: steps.haslabel.outputs.labeled-AutoSquash-Crowdin
         env:
