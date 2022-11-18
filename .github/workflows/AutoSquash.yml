@@ -108,7 +108,7 @@ jobs:
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK_ADMIN }}
 
       - name: Trigger Sync Action
-        uses: benc-uk/workflow-dispatch@v1
+        uses: benc-uk/workflow-dispatch@v121
         if: |
           steps.haslabel.outputs.labeled-AutoSquash-Crowdin &&
           steps.crowdin_merge.outputs.mergeResult == 'merged'
