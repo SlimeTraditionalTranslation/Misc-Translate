@@ -35,12 +35,12 @@ Those are marked as *TBD* (to be decided).
 
 The first upcoming change is a major relocation of some of our classes to unify some packages, get rid of old classpaths and to follow the general conventions. You can read more about this here: <https://github.com/Slimefun/Slimefun4/pull/3139>
 
-</details>
-
-### 🔧 (Q3 2022) Updating to Java 16
+### 🔧 ~~(Q3 2022) Updating to Java 16~~
 
 Slimefun will update to Java 16.
 You can see the progress here: <https://github.com/Slimefun/Slimefun4/pull/3602>
+
+</details>
 
 ### 🎈(Q3 2022) New sound-system
 
@@ -48,24 +48,24 @@ Soon we will allow server owners to fully configure any sound in this plugin.
 This will also work with custom sounds from resource packs. Additionally you can change the pitch and volume of any sound or even mute it.
 You can see the progress here: <https://github.com/Slimefun/Slimefun4/pull/2844>
 
-### 🔧 (Q3 2022) Inventory system rewrite
+### 🔧 (2023) Inventory system rewrite
 
 Next up is a rewrite for our inventory-system. The API is very rusty and aged. We don't have an ETA yet, perhaps closely after or along with the aforementioned API relocation.
 The new system will be much more flexible and easier to use for developers.
 
-### 🎈 (Q4 2022) Changes to the radiation system
+### 🎈 (2023) Changes to the radiation system
 
 Thanks to @Semisol you will soon be able to enjoy a new radiation system which works by calculating a so-called "exposure level" to a radioactive substance. You won't experience radiation symptoms until a certain exposure level has been reached.
 This will also make the different radiation levels much more distinct from each other and the features comes with a few good-looking UI changes too! You can track the progress of that here: <https://github.com/Slimefun/Slimefun4/pull/3189>
 
-### 🎈 (Q4 2022) SQL database support and Research system rewrite
+### 🎈 (2023) SQL database support and Research system rewrite
 
 The Research system will be rewritten api-wise.
 We will also drop numeric ids for researches and solely rely on namespaced keys.
 In addition to this, we will add support for SQL databases to sync researches across multiple servers.
 Alternatively, a local file-based database can be used.
 
-### 🔧 (2022/23) Recipe system rewrite
+### 🔧 (2023) Recipe system rewrite
 
 Our recipe system is in deep need of a rewrite, it needs to be much less item-comparison based and we should allow alternate ingredients through the use of material tags or slimefun item classes and such.
 I will be doing this rewrite myself and some infrastructure has been set up already but nothing to show you yet, it is still a while until we get there.
