@@ -72,7 +72,7 @@ jobs:
 
       - name: Auto PR approve
         if: steps.cpr.outputs.pull-request-operation == 'created'
-        uses: juliangruber/approve-pull-request-action@v2.0.3
+        uses: juliangruber/approve-pull-request-action@v2.0.4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           number: ${{ steps.cpr.outputs.pull-request-number }}

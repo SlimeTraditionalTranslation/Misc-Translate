@@ -70,7 +70,7 @@ jobs:
 
       - name: Auto Crowdin PR approve
         if: steps.haslabel.outputs.labeled-AutoSquash-Crowdin
-        uses: juliangruber/approve-pull-request-action@v2.0.3
+        uses: juliangruber/approve-pull-request-action@v2.0.4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           number: ${{ github.event.number }}
